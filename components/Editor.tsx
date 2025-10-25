@@ -2,7 +2,11 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import {Menubar} from './MenuBar'
+import { useEditorStore } from '@/lib/use-editor-store'
+
 const Editor = () => {
+    const {setEditor} = useEditorStore();
+    
     const editor = useEditor({
         extensions: [StarterKit],
         content: '<p>Hello World! 🌎️</p>',
@@ -12,6 +16,27 @@ const Editor = () => {
             }
         },
         immediatelyRender: false,
+        onCreate({editor}) {
+            setEditor(editor);
+        },
+        onDestroy(){
+            setEditor(null);
+        },
+        onUpdate({editor}) {
+            setEditor(editor);
+        },
+        onSelectionUpdate({editor}) {
+            setEditor(editor);
+        },
+        onTransaction({editor}) {
+            setEditor(editor);
+        },
+        onBlur({editor}) {
+            setEditor(editor);
+        },
+        onFocus({editor}) {
+            setEditor(editor);
+        },
     })
 
     return (

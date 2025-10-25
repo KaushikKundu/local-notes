@@ -3,12 +3,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
 import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image } from "lucide-react"
+import { useEditorStore } from "@/lib/use-editor-store"
 
 export const Menubar = () => {
+   const {editor} = useEditorStore();
+   console.log("Toolbar:", {editor})
     return (
         <div className="w-fit max-w-4xl mx-auto mt-2 border border-gray-100 shadow-lg rounded-lg bg-gray-100 flex items-center justify-center p-1.5 space-x-1">
-            <ToolbarButton icon={Undo} onClick={() => { }} label="Undo" />
-            <ToolbarButton icon={Redo} onClick={() => { }} label="Redo" />
+            <ToolbarButton icon={Undo} onClick={() => {editor?.chain().focus().undo().run()}} label="Undo" />
+            <ToolbarButton icon={Redo} onClick={() => {editor?.chain().focus().redo().run() }} label="Redo" />
 
             <Separator orientation="vertical" className="h-6 mx-1" />
             <DropdownMenu>
@@ -43,13 +46,11 @@ export const Menubar = () => {
             <Separator orientation="vertical" className="h-6 mx-1" />
             <Separator orientation="vertical" className="h-6 mx-1" />
 
-            {/* Lists */}
             <ToolbarButton icon={List} onClick={() => { }} label="Bullet List" />
             <ToolbarButton icon={ListOrdered} onClick={() => { }} label="Numbered List" />
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
-            {/* Insert */}
             <ToolbarButton icon={Link} onClick={() => { }} label="Insert Link" />
             <ToolbarButton icon={Image} onClick={() => { }} label="Insert Image" />
         </div>
