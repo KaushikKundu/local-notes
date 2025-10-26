@@ -5,7 +5,7 @@ import { Separator } from "./ui/separator"
 import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo } from "lucide-react"
 import { useEditorStore } from "@/lib/use-editor-store"
 import { useState } from "react"
-
+import { HeadingButtons } from "./HeadingButtons"
 const FontFamilyButton = () => {
     const { editor } = useEditorStore();
     const [font, setFont] = useState<string>("Font");
@@ -38,6 +38,7 @@ const FontFamilyButton = () => {
         </DropdownMenu>
     )
 }
+
 export const Menubar = () => {
     const { editor } = useEditorStore();
     console.log("Toolbar:", { editor })
@@ -77,19 +78,7 @@ export const Menubar = () => {
             }
 
             <Separator orientation="vertical" className="h-6 mx-1" />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 px-3">
-                        <span className="text-sm">Normal</span>
-                        <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => editor?.chain().focus().setHeading({ level: 1 }).run()}>Heading 1</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}>Heading 2</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor?.chain().focus().toggleHeading({ level: 3 })}>Heading 3</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <HeadingButtons />
 
             <Separator orientation="vertical" className="h-6 mx-1" />
             {
