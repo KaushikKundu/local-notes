@@ -4,8 +4,40 @@ import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
 import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo } from "lucide-react"
 import { useEditorStore } from "@/lib/use-editor-store"
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group"
+import { useState } from "react"
 
+const FontFamilyButton = () => {
+    const { editor } = useEditorStore();
+    const [font, setFont] = useState<string>("Font");
+    const fonts = [
+        { label: "Sans Serif", value: "sans-serif" },
+        { label: "Serif", value: "serif" },
+        { label: "Monospace", value: "monospace" },
+        { label: "Cursive", value: "cursive" },
+        { label: "Fantasy", value: "fantasy" },
+        { label: "Inter", value: "Inter, sans-serif" },
+        { label: "Comic Sans", value: "'Comic Sans MS', cursive, sans-serif" },
+    ]
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 px-3">
+                    <span className="text-sm">{font}</span>
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                {
+                    fonts.map((font) => (
+                        <DropdownMenuItem key={font.value} onClick={() => { editor?.chain().focus().setFontFamily(font.value).run(); setFont(font.label) }}>
+                            {font.label}
+                        </DropdownMenuItem>
+                    ))
+                }
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
 export const Menubar = () => {
     const { editor } = useEditorStore();
     console.log("Toolbar:", { editor })
@@ -31,9 +63,9 @@ export const Menubar = () => {
                 { icon: Underline, onClick: () => editor?.chain().focus().toggleUnderline().run(), label: "Underline", isActive: editor?.isActive("underline") || false },
             ],
             [
-                { icon: ListOrdered, onClick: () => editor?.chain().focus().toggleOrderedList().run(), label: "Ordered List", isActive: editor?.isActive("orderedList")},
-                { icon:List, onClick: () => editor?.chain().focus().toggleBulletList().run(), label: "Bullet List", isActive: editor?.isActive("bulletList") },
-                { icon: LucideListTodo, onClick: () => editor?.chain().focus().toggleTaskList().run(), label: "List Todo", isActive: editor?.isActive("taskList")},
+                { icon: ListOrdered, onClick: () => editor?.chain().focus().toggleOrderedList().run(), label: "Ordered List", isActive: editor?.isActive("orderedList") },
+                { icon: List, onClick: () => editor?.chain().focus().toggleBulletList().run(), label: "Bullet List", isActive: editor?.isActive("bulletList") },
+                { icon: LucideListTodo, onClick: () => editor?.chain().focus().toggleTaskList().run(), label: "List Todo", isActive: editor?.isActive("taskList") },
             ]
         ]
     return (
@@ -72,8 +104,7 @@ export const Menubar = () => {
                 ))
             }
             <Separator orientation="vertical" className="h-6 mx-1" />
-
-
+            <FontFamilyButton />
             <Separator orientation="vertical" className="h-6 mx-1" />
 
         </div>
