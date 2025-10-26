@@ -2,9 +2,9 @@ import { ToolbarButton } from "./ToolbarButton"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
-import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo } from "lucide-react"
+import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo, ImageDown } from "lucide-react"
 import { useEditorStore } from "@/lib/use-editor-store"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { HeadingButtons } from "./HeadingButtons"
 const FontFamilyButton = () => {
     const { editor } = useEditorStore();
@@ -42,6 +42,13 @@ const FontFamilyButton = () => {
 export const Menubar = () => {
     const { editor } = useEditorStore();
     console.log("Toolbar:", { editor })
+    const addImage = useCallback(() => {
+    const url = window.prompt('URL')
+
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run()
+    }
+  }, [editor])
     const sections: {
         label: string;
         icon: LucideIcon;
@@ -94,6 +101,7 @@ export const Menubar = () => {
             }
             <Separator orientation="vertical" className="h-6 mx-1" />
             <FontFamilyButton />
+            <ToolbarButton icon={ImageDown} onClick={addImage}/>
             <Separator orientation="vertical" className="h-6 mx-1" />
 
         </div>

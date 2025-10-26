@@ -21,6 +21,8 @@
     "@tanstack/react-query": "^5.90.5",
     "@tiptap/cli": "^3.3.3",
     "@tiptap/extension-heading": "^3.8.0",
+    "@tiptap/extension-image": "^3.8.0",
+    "@tiptap/extension-link": "^3.8.0",
     "@tiptap/extension-list": "^3.8.0",
     "@tiptap/extension-placeholder": "^3.7.2",
     "@tiptap/extension-text-style": "^3.8.0",

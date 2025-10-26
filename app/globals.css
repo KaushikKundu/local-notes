@@ -258,5 +258,30 @@ body {
 .tiptap p {
   font-size: 1rem;
   line-height: 1.5;
-  margin: 0.5rem 0;
+}
+.tiptap a {
+  color: blue;
+}
+/* Basic editor styles */
+.tiptap :first-child {
+  margin-top: 0;
+}
+
+/* Code and preformatted text styles */
+.tiptap code {
+  background-color: var(--purple-light);
+  border-radius: 0.4rem;
+  color: var(--black);
+  font-size: 0.85rem;
+  padding: 0.25em 0.3em;
+}
+
+/* Link styles */
+.tiptap a {
+  color: var(--purple);
+  cursor: pointer;
+}
+
+.tiptap a:hover {
+  color: var(--purple-contrast);
 }

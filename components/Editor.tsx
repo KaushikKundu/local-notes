@@ -6,20 +6,31 @@ import { useEditorStore } from '@/lib/use-editor-store'
 import { TextStyle, FontFamily } from '@tiptap/extension-text-style'
 import { TaskList, TaskItem } from '@tiptap/extension-list'
 import Heading from '@tiptap/extension-heading'
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
+
 const Editor = () => {
     const { setEditor } = useEditorStore();
 
     const editor = useEditor({
         extensions: [
-            StarterKit, 
+            StarterKit,
             TaskList,
+            Image,
             TaskItem.configure({
                 nested: true,
             }),
-            Heading.configure({ levels: [1, 2, 3 ],
+            Heading.configure({
+                levels: [1, 2, 3],
             }),
             TextStyle,
             FontFamily,
+            Link.configure({
+                openOnClick: false,
+                autolink: true,
+                defaultProtocol: 'https',
+                protocols: ['http', 'https'],
+            })
         ],
         content: '<p>Start Writing..🌎️</p>',
         editorProps: {
