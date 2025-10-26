@@ -1,19 +1,19 @@
+import { LucideIcon } from "lucide-react";
 import { Button } from "./ui/button"
 
+
 interface ToolbarButtonProps {
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-    label: string;
-    onClick: () => void;
+    icon: LucideIcon;
+    onClick?: () => void;
     isActive?: boolean;
 }
-export const ToolbarButton = ({icon:Icon,label,onClick,isActive}:ToolbarButtonProps) => {
+export const ToolbarButton = ({icon:Icon,onClick,isActive}:ToolbarButtonProps) => {
   return (
     <Button
-      variant={isActive ? "secondary" : "ghost"}
+      variant={isActive ? "default" : "ghost"}
       size="sm"
       onClick={onClick}
-      className="h-8 w-8 p-0 cursor-pointer"
-      title={label}
+      className="size-8 p-0 cursor-pointer"
     >
       <Icon className="h-4 w-4" />
     </Button>

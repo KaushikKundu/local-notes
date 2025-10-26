@@ -1,40 +1,49 @@
 'use client'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import {Menubar} from './MenuBar'
+import { Menubar } from './MenuBar'
 import { useEditorStore } from '@/lib/use-editor-store'
-
+import { TaskList, TaskItem } from '@tiptap/extension-list'
+import Heading from '@tiptap/extension-heading'
 const Editor = () => {
-    const {setEditor} = useEditorStore();
-    
+    const { setEditor } = useEditorStore();
+
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: [
+            StarterKit, 
+            TaskList,
+            TaskItem.configure({
+                nested: true,
+            }),
+            Heading.configure({ levels: [1, 2, 3 ],
+            }),
+        ],
         content: '<p>Hello World! 🌎️</p>',
         editorProps: {
             attributes: {
-                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-0 focus:outline-none py-4 px-10 min-h-[400px]',
+                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-0 focus:outline-none py-4 px-10 min-h-screen',
             }
         },
         immediatelyRender: false,
-        onCreate({editor}) {
+        onCreate({ editor }) {
             setEditor(editor);
         },
-        onDestroy(){
+        onDestroy() {
             setEditor(null);
         },
-        onUpdate({editor}) {
+        onUpdate({ editor }) {
             setEditor(editor);
         },
-        onSelectionUpdate({editor}) {
+        onSelectionUpdate({ editor }) {
             setEditor(editor);
         },
-        onTransaction({editor}) {
+        onTransaction({ editor }) {
             setEditor(editor);
         },
-        onBlur({editor}) {
+        onBlur({ editor }) {
             setEditor(editor);
         },
-        onFocus({editor}) {
+        onFocus({ editor }) {
             setEditor(editor);
         },
     })
@@ -42,7 +51,7 @@ const Editor = () => {
     return (
         <div className='size-full py-2 overflow-x-auto border border-gray-300  min-h-screen'>
             <Menubar />
-            <div className='min-w-max text-black'>
+            <div className='min-w-max text-foreground'>
                 <EditorContent editor={editor} />
             </div>
         </div>

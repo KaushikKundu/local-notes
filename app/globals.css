@@ -182,3 +182,55 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.tiptap :first-child {
+  margin-top: 0;
+}
+
+/* Base list styles */
+.tiptap ul,
+.tiptap ol {
+  margin: 1.25rem 1rem 1.25rem 0.4rem;
+  padding: 0 1rem;
+}
+
+/* Make sure regular lists show their markers */
+.tiptap ul {
+  list-style-type: disc;
+}
+
+.tiptap ol {
+  list-style-type: decimal;
+}
+
+/* Task list styles — no bullets or numbers */
+.tiptap ul[data-type='taskList'] {
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+}
+
+/* Task list items layout */
+.tiptap ul[data-type='taskList'] li {
+  display: flex;
+  align-items: center;
+}
+
+.tiptap ul[data-type='taskList'] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.tiptap ul[data-type='taskList'] li > div {
+  flex: 1 1 auto;
+}
+
+.tiptap ul[data-type='taskList'] input[type='checkbox'] {
+  cursor: pointer;
+}
+
+/* Nested task lists */
+.tiptap ul[data-type='taskList'] ul[data-type='taskList'] {
+  margin: 0;
+}
+

@@ -2,16 +2,47 @@ import { ToolbarButton } from "./ToolbarButton"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
-import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image } from "lucide-react"
+import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo } from "lucide-react"
 import { useEditorStore } from "@/lib/use-editor-store"
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group"
 
 export const Menubar = () => {
-   const {editor} = useEditorStore();
-   console.log("Toolbar:", {editor})
+    const { editor } = useEditorStore();
+    console.log("Toolbar:", { editor })
+    const sections: {
+        label: string;
+        icon: LucideIcon;
+        onClick: () => void;
+        isActive?: boolean;
+    }[][] = [
+            [
+                { icon: Undo, onClick: () => editor?.chain().focus().undo().run(), label: "Undo" },
+                { icon: Redo, onClick: () => editor?.chain().focus().redo().run(), label: "Redo" },
+                {
+                    icon: SpellCheck, onClick: () => {
+                        const cur = editor?.view.dom.getAttribute("spellcheck");
+                        editor?.view.dom.setAttribute("spellcheck", cur === "true" ? "false" : "true");
+                    }, label: "Toggle Spellcheck"
+                }
+            ],
+            [
+                { icon: BoldIcon, onClick: () => editor?.chain().focus().toggleBold().run(), label: "Bold", isActive: editor?.isActive("bold") || false },
+                { icon: Italic, onClick: () => editor?.chain().focus().toggleItalic().run(), label: "Italic", isActive: editor?.isActive("italic") || false },
+                { icon: Underline, onClick: () => editor?.chain().focus().toggleUnderline().run(), label: "Underline", isActive: editor?.isActive("underline") || false },
+            ],
+            [
+                { icon: ListOrdered, onClick: () => editor?.chain().focus().toggleOrderedList().run(), label: "Ordered List", isActive: editor?.isActive("orderedList")},
+                { icon:List, onClick: () => editor?.chain().focus().toggleBulletList().run(), label: "Bullet List", isActive: editor?.isActive("bulletList") },
+                { icon: LucideListTodo, onClick: () => editor?.chain().focus().toggleTaskList().run(), label: "List Todo", isActive: editor?.isActive("taskList")},
+            ]
+        ]
     return (
-        <div className="w-fit max-w-4xl mx-auto mt-2 border border-gray-100 shadow-lg rounded-lg bg-gray-100 flex items-center justify-center p-1.5 space-x-1">
-            <ToolbarButton icon={Undo} onClick={() => {editor?.chain().focus().undo().run()}} label="Undo" />
-            <ToolbarButton icon={Redo} onClick={() => {editor?.chain().focus().redo().run() }} label="Redo" />
+        <div className="w-fit max-w-4xl mx-auto mt-2 border border-gray-100 shadow-lg rounded-lg bg-gray-100 flex items-center justify-center p-1 space-x-1">
+            {
+                sections[0].map((item, index) => (
+                    <ToolbarButton key={index} {...item} />
+                ))
+            }
 
             <Separator orientation="vertical" className="h-6 mx-1" />
             <DropdownMenu>
@@ -22,37 +53,29 @@ export const Menubar = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem>Heading 1</DropdownMenuItem>
-                    <DropdownMenuItem>Heading 2</DropdownMenuItem>
-                    <DropdownMenuItem>Heading 3</DropdownMenuItem>
-                    <DropdownMenuItem>Normal</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => editor?.chain().focus().setHeading({ level: 1 }).run()}>Heading 1</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}>Heading 2</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => editor?.chain().focus().toggleHeading({ level: 3 })}>Heading 3</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
             <Separator orientation="vertical" className="h-6 mx-1" />
-            <ToolbarButton
-                icon={Italic}
-                isActive={true}
-                onClick={() => { }}
-                label="Italic"
-            />
-            <ToolbarButton
-                icon={Underline}
-                isActive={false}
-                onClick={() => { }}
-                label="Underline"
-            />
-
+            {
+                sections[1].map((item, index) => (
+                    <ToolbarButton key={index} {...item} />
+                ))
+            }
             <Separator orientation="vertical" className="h-6 mx-1" />
+            {
+                sections[2].map((item, index) => (
+                    <ToolbarButton key={index} {...item} />
+                ))
+            }
             <Separator orientation="vertical" className="h-6 mx-1" />
 
-            <ToolbarButton icon={List} onClick={() => { }} label="Bullet List" />
-            <ToolbarButton icon={ListOrdered} onClick={() => { }} label="Numbered List" />
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
-            <ToolbarButton icon={Link} onClick={() => { }} label="Insert Link" />
-            <ToolbarButton icon={Image} onClick={() => { }} label="Insert Image" />
         </div>
     )
 }
