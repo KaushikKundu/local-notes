@@ -1,5 +1,5 @@
 import { openDB, DBSchema, IDBPDatabase } from "idb";
-interface Note {
+export interface Note {
   id: string;
   title: string;
   content: string;
@@ -32,7 +32,7 @@ interface NotesDB extends DBSchema {
     };
 }
 
-let dbInstance : IDBPDatabase<NotesDB> | null = null;
+export let dbInstance : IDBPDatabase<NotesDB> | null = null;
 
 export async function getDb() {
     if(dbInstance) {

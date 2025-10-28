@@ -1,7 +1,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
 import { ChevronDown } from "lucide-react"
-import { useEditorStore } from "@/lib/use-editor-store"
+import { useEditorStore } from "@/lib/store"
 import { type Level } from "@tiptap/extension-heading"
 
 export const HeadingButtons = () => {

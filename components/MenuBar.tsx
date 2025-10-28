@@ -3,7 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
 import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo, ImageDown } from "lucide-react"
-import { useEditorStore } from "@/lib/use-editor-store"
+import { useEditorStore } from "@/lib/store"
 import { useCallback, useState } from "react"
 import { HeadingButtons } from "./HeadingButtons"
 const FontFamilyButton = () => {

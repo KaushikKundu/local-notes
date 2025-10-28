@@ -2,7 +2,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Menubar } from './MenuBar'
-import { useEditorStore } from '@/lib/use-editor-store'
+import { useEditorStore } from '@/lib/store'
 import { TextStyle, FontFamily } from '@tiptap/extension-text-style'
 import { TaskList, TaskItem } from '@tiptap/extension-list'
 import Heading from '@tiptap/extension-heading'
