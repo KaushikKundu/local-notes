@@ -2,6 +2,7 @@ import { ToolbarButton } from "./ToolbarButton"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
+import { Card } from "./ui/card"
 import { ChevronDown, Undo, Redo, Italic, Underline, List, ListOrdered, Link, Image, Bold, LucideIcon, SpellCheck, BoldIcon, LucideListTodo, ImageDown } from "lucide-react"
 import { useEditorStore } from "@/lib/store"
 import { useCallback, useState } from "react"
@@ -76,7 +77,7 @@ export const Menubar = () => {
             ]
         ]
     return (
-        <div className="w-fit max-w-4xl mx-auto mt-2 border border-gray-100 shadow-lg rounded-lg bg-gray-100 flex items-center justify-center p-1 space-x-1">
+        <div className="w-fit max-w-4xl mx-auto mt-2 rounded-lg flex bg-accent items-center justify-center p-1 space-x-1">
             {
                 sections[0].map((item, index) => (
                     <ToolbarButton key={index} {...item} />
