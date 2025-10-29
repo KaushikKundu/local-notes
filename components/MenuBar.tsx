@@ -41,7 +41,6 @@ const FontFamilyButton = () => {
 
 export const Menubar = () => {
     const { editor } = useEditorStore();
-    console.log("Toolbar:", { editor })
     const addImage = useCallback(() => {
     const url = window.prompt('URL')
 

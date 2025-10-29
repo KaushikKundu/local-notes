@@ -8,10 +8,13 @@ import { TaskList, TaskItem } from '@tiptap/extension-list'
 import Heading from '@tiptap/extension-heading'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
+import { useNotes } from '@/hooks/use-notes'
+import { useEffect } from 'react'
 
 const Editor = () => {
     const { setEditor } = useEditorStore();
-
+    const { notes, currentNoteId, updateNote } = useNotes();
+    const currentNote = notes.find(n => n.id === currentNoteId);
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -20,19 +23,10 @@ const Editor = () => {
             TaskItem.configure({
                 nested: true,
             }),
-            Heading.configure({
-                levels: [1, 2, 3],
-            }),
             TextStyle,
             FontFamily,
-            Link.configure({
-                openOnClick: false,
-                autolink: true,
-                defaultProtocol: 'https',
-                protocols: ['http', 'https'],
-            })
         ],
-        content: '<p>Start Writing..🌎️</p>',
+        content: currentNote?.content || '<p>Start Writing..🌎️</p>',
         editorProps: {
             attributes: {
                 class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-0 focus:outline-none py-4 px-10 min-h-screen',
@@ -46,7 +40,10 @@ const Editor = () => {
             setEditor(null);
         },
         onUpdate({ editor }) {
-            setEditor(editor);
+            if (currentNoteId) {
+                const html = editor.getHTML();
+                updateNote(currentNoteId, { content: html });
+            }
         },
         onSelectionUpdate({ editor }) {
             setEditor(editor);
@@ -61,12 +58,39 @@ const Editor = () => {
             setEditor(editor);
         },
     })
+    useEffect(() => {
+        if (editor && currentNote) {
+            const currentContent = editor.getHTML();
+            const newContent = currentNote.content || '<p>Start Writing..🌎️</p>';
 
+            if (currentContent !== newContent) {
+                console.log('Content different, updating editor');
+                editor.commands.setContent(newContent);
+            } else {
+                console.log('Content same, not updating');
+            }
+        } else {
+            console.log('Editor or currentNote not ready:', { editor: !!editor, currentNote: !!currentNote });
+        }
+    }, [currentNoteId]);
+    if (!currentNoteId) {
+        return (
+            <div className="flex items-center justify-center h-full text-foreground text-xl">
+                Select a note to start editing
+            </div>
+        );
+    }
     return (
         <div className='size-full py-2 overflow-x-auto border border-gray-300  min-h-screen'>
             <Menubar />
             <div className='min-w-max text-foreground'>
-                <EditorContent editor={editor} />
+                {!currentNoteId ? (
+                    <div className="flex items-center justify-center h-full text-foreground text-xl">
+                        Select a note to start editing
+                    </div>
+                ) : (
+                    <EditorContent editor={editor} />
+                )}
             </div>
         </div>
     );

@@ -20,7 +20,6 @@ export const HeadingButtons = () => {
             }
         }
     }
-    console.log(editor?.getJSON())
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

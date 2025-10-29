@@ -1,12 +1,13 @@
+"use client"
 import { AppSidebar } from "@/components/app-sidebar"
 import Editor from "@/components/Editor"
+import { useEffect, useRef, useState } from "react"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -14,8 +15,47 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { useNotes } from "@/hooks/use-notes"
 
 export default function Page() {
+  const { currentNoteId, notes, updateNote } = useNotes();
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const currentNote = notes.find(n => n.id === currentNoteId);
+  const title = currentNote?.title;
+  console.log("note id:", currentNoteId)
+
+  useEffect(() => {
+    if (isEditingTitle && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEditingTitle]);
+
+  const handleTitleClick = () => {
+    setIsEditingTitle(true);
+    setEditTitle(title || 'New Note');
+  };
+
+  const handleTitleSave = async () => {
+    if (currentNoteId && editTitle.trim()) {
+      console.log(currentNoteId)
+      await updateNote(currentNoteId, { title: editTitle.trim() });
+    }else{
+      console.log("save")
+    }
+    setIsEditingTitle(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleTitleSave();
+    } else if (e.key === 'Escape') {
+      setIsEditingTitle(false);
+    }
+  };
   return (
     <>
       <SidebarProvider>
@@ -31,13 +71,30 @@ export default function Page() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Note 1</BreadcrumbPage>
+                    {isEditingTitle ? (
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                        onBlur={handleTitleSave}
+                        onKeyDown={handleKeyDown}
+                        className="bg-transparent border-b border-gray-400 outline-none px-1"
+                      />
+                    ) : (
+                      <BreadcrumbPage
+                        onClick={handleTitleClick}
+                        className="cursor-pointer hover:text-blue-600"
+                      >
+                        {title || "New Note"}
+                      </BreadcrumbPage>
+                    )}
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-        <Editor />
+          <Editor />
         </SidebarInset>
       </SidebarProvider>
     </>

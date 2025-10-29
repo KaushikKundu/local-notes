@@ -62,12 +62,14 @@ export async function createNote(note: Omit<Note, 'id' | 'createdAt' | 'updatedA
         updatedAt: now
     }
     await db.put('notes', newNote);
+    console.log("note created", newNote.id)
     // await db.addToSyncQueue(newNote.id, 'create', { ...newNote });
     return newNote;
 }
 export async function updateNote(id: string, updates: Partial<Note>){
     const db = await getDb();
     const note = await db.get('notes', id);
+    console.log(id)
     if(!note) {
         throw new Error("Note not found");
     }

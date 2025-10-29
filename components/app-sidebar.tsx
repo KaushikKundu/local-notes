@@ -1,26 +1,22 @@
 "use client"
 
-import * as React from "react"
-import {
-  AudioWaveform,
-} from "lucide-react"
-
-import { Plus } from "lucide-react"
-import { NavUser } from "@/components/nav-user"
+import { useNotes } from "@/hooks/use-notes"
+import { AudioWaveform, Plus } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarMenuButton,
-  SidebarHeader,
-  SidebarRail,
   SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar"
-import { Button } from "./ui/button"
-import { useNotes } from "@/hooks/use-notes"
-import { Collapsible } from "./ui/collapsible"
+import { NavUser } from "./nav-user"
 
 const data = {
   user: {
@@ -31,7 +27,29 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {notes} = useNotes();
+  const { notes, addNote, setCurrentNoteId, currentNoteId } = useNotes();
+  
+  console.log('🏠 AppSidebar render - currentNoteId:', currentNoteId);
+  console.log('🏠 AppSidebar render - notes count:', notes.length);
+  
+  const handleButton = () => {
+    const newNote = {
+      id: crypto.randomUUID(),
+      title: "New Note",
+      content: "",
+      tags: [],
+      parentId: null,
+      deleted: false,
+      synced: false,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    }
+    
+    console.log('➕ Creating new note:', newNote.id);
+    addNote(newNote);
+    setCurrentNoteId(newNote.id);
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -48,25 +66,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-         <SidebarGroup>
-      <SidebarGroupLabel>
-        <span>All Notes</span>
-        <Button variant="ghost" className="ml-auto bg-primary/10 hover:bg-sidebar-primary/80 rounded-md size-6" onClick={() => {}}>
-          <Plus size={3} />
-        </Button>
-      </SidebarGroupLabel>
-      <SidebarMenu>
-        {notes.map((item) => (
-          <Collapsible
-            key={item.title}
-            content={item.title}
-            asChild
-            className="group/collapsible"
-          >
-          </Collapsible>
-        ))}
-      </SidebarMenu>
-    </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            <span>All Notes</span>
+            <SidebarGroupAction title="Add Project" onClick={handleButton}>
+              <Plus /> <span className="sr-only">Add Note</span>
+            </SidebarGroupAction>
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {notes.map((note) => (
+                <SidebarMenuItem key={note.id}>
+                  <SidebarMenuButton 
+                    onClick={() => {
+                      console.log('📝 Note clicked:', note.id);
+                      setCurrentNoteId(note.id);
+                    }}
+                    className={currentNoteId === note.id ? 'bg-accent' : ''}
+                  >
+                    <span>{note.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
@@ -75,3 +99,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   )
 }
+

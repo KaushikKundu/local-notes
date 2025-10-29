@@ -5,18 +5,25 @@ import {
   Note, 
   deleteNote as dbDeleteNote, 
   getAllNotes,
+  updateNote as dbUpdateNote,
   createNote as dbAddNote  
 } from '../lib/db';
+import { useNotesStore } from '../lib/store';
 
 export function useNotes() {
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [currentNoteId, setCurrentNoteId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+ const notes = useNotesStore((state) => state.notes);
+  const currentNoteId = useNotesStore((state) => state.currentNoteId);
+  const isLoading = useNotesStore((state) => state.isLoading);
+  const setNotes = useNotesStore((state) => state.setNotes);
+  const setCurrentNoteId = useNotesStore((state) => state.setCurrentNoteId);
+  const setIsLoading = useNotesStore((state) => state.setIsLoading);
 
   useEffect(() => {
     loadNotes();
   }, []);
-
+useEffect(() => {
+  console.log(notes)
+},[currentNoteId])
   const loadNotes = async () => {
     try {
       const allNotes = await getAllNotes();
@@ -30,20 +37,34 @@ export function useNotes() {
 
   const addNote = useCallback(async (note: Note) => {
     try {
-      await dbAddNote(note);  // Use the renamed import
-      setNotes((prev) => [...prev, note]);
+      await dbAddNote(note); 
+      const curNotes = useNotesStore.getState().notes;
+      setNotes([...curNotes, note]);
+      console.log(notes)
       return note.id;
     } catch (error) {
       console.error('Failed to add note:', error);
       throw error;
     }
   }, []);
-
+ 
+  const updateNote = useCallback(async (id: string, updates: Partial<Note>) => {
+    try {
+      await dbUpdateNote(id, updates);  
+      const curNotes = useNotesStore.getState().notes;
+      setNotes(curNotes.map((note) => note.id === id ? {...note, ...updates} : note));
+    } catch (error) {
+      console.error('Failed to update note:', error);
+      throw error;
+    }
+  }, [setNotes]);
 
   const deleteNote = useCallback(async (id: string) => {
     try {
       await dbDeleteNote(id);  
-      setNotes((prev) => prev.filter((note) => note.id !== id));
+      const curNotes = useNotesStore.getState().notes;
+      const curId = useNotesStore.getState().currentNoteId;
+      setNotes(curNotes.filter((note) => note.id !== id));
       if (currentNoteId === id) {
         setCurrentNoteId(null);
       }
@@ -60,5 +81,6 @@ export function useNotes() {
     isLoading,
     addNote,
     deleteNote,
+    updateNote
   };
 }
