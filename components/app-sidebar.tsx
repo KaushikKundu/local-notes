@@ -37,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} >
       <SidebarHeader>
         <SidebarMenuButton
           size="lg"
@@ -47,19 +47,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <NotebookPen className="size-4" />
           </div>
           <div className="grid flex-1 text-left text-lg leading-normal">
-            <span className="truncate font-mono">LocalNotes</span>
+            <span className="truncate font-mono text-foreground">LocalNotes</span>
           </div>
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>
+          <SidebarGroupLabel >
             All Notes
             <SidebarGroupAction title="Add Project" onClick={handleButton}>
               <Plus /> <span className="sr-only">Add Note</span>
             </SidebarGroupAction>
           </SidebarGroupLabel>
-          <SidebarGroupContent>
             <SidebarMenu>
               {notes.map((note) => (
                 <SidebarMenuItem key={note.id}>
@@ -67,14 +66,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     onClick={() => {
                       setCurrentNoteId(note.id);
                     }}
-                    className={currentNoteId === note.id ? 'bg-sidebar-primary' : ''}
+                    className={currentNoteId === note.id ? 'bg-sidebar-primary text-sidebar-primary-foreground' : 'text-sidebar-accent-foreground'}
                   >
                     <span>{note.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroupContent>
+          
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />

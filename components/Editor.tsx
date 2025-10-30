@@ -5,8 +5,6 @@ import { Menubar } from './MenuBar'
 import { useEditorStore } from '@/lib/store'
 import { TextStyle, FontFamily } from '@tiptap/extension-text-style'
 import { TaskList, TaskItem } from '@tiptap/extension-list'
-import Heading from '@tiptap/extension-heading'
-import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import { useNotes } from '@/hooks/use-notes'
 import { useEffect } from 'react'
@@ -81,11 +79,11 @@ const Editor = () => {
         );
     }
     return (
-        <div className='size-full py-2 overflow-x-auto border border-gray-300  min-h-screen'>
+        <div className='size-full py-2 overflow-x-auto  min-h-screen'>
             <Menubar />
             <div className='min-w-max text-foreground'>
                 {!currentNoteId ? (
-                    <div className="flex items-center justify-center h-full text-foreground text-xl">
+                    <div className="flex items-center justify-center h-full text-xl">
                         Select a note to start editing
                     </div>
                 ) : (
