@@ -55,7 +55,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupLabel >
             All Notes
-            <SidebarGroupAction title="Add Project" onClick={handleButton}>
+            <SidebarGroupAction title="Add Project" onClick={() => handleButton()}>
               <Plus /> <span className="sr-only">Add Note</span>
             </SidebarGroupAction>
           </SidebarGroupLabel>

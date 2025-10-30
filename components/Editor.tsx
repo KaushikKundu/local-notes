@@ -6,6 +6,7 @@ import { useEditorStore } from '@/lib/store'
 import { TextStyle, FontFamily } from '@tiptap/extension-text-style'
 import { TaskList, TaskItem } from '@tiptap/extension-list'
 import Image from '@tiptap/extension-image'
+import { Placeholder } from '@tiptap/extensions'
 import { useNotes } from '@/hooks/use-notes'
 import { useEffect } from 'react'
 
@@ -21,10 +22,13 @@ const Editor = () => {
             TaskItem.configure({
                 nested: true,
             }),
+            Placeholder.configure({
+                placeholder: 'Start Writing..',
+            }),
             TextStyle,
             FontFamily,
         ],
-        content: currentNote?.content || '<p>Start Writing..🌎️</p>',
+        content: currentNote?.content ,
         editorProps: {
             attributes: {
                 class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-0 focus:outline-none py-4 px-10 min-h-screen',

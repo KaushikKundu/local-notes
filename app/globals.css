@@ -285,3 +285,10 @@ body {
 .tiptap a:hover {
   color: var(--purple-contrast);
 }
+p.is-editor-empty:first-child::before {
+  color: var(--gray-4);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
