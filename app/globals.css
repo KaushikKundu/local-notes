@@ -292,3 +292,12 @@ p.is-editor-empty:first-child::before {
   height: 0;
   pointer-events: none;
 }
+.monoTitle {
+  font-family: var(--font-geist-mono);
+}
+.geistSans {
+  font-family:var(--font-geist-sans);
+}
+.outfit {
+  font-family: var(--font-outfit-semi)
+}
