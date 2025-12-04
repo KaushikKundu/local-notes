@@ -3,18 +3,19 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { Lock, Wifi, Zap, Cloud } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function Page() {
+    const router = useRouter();
     return (
         <main className="min-h-screen">
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 bg-linear-to-b from-black/30 to-transparent backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-6 py-4 mt-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <span className="text-black font-bold tracking-wide text-xl">OwnSpace</span>
-                    </div>
-                    <Button className="bg-white hover:bg-white/90 text-slate-900 font-semibold cursor-pointer rounded-2xl">Get Started</Button>
+            <nav className="fixed top-2 w-full mx-2 z-50 bg-white/80 rounded-full  backdrop-bluackdrop-blur-md max-w-7xl px-4 py-3 mt-3 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <span className="text-black font-semibold tracking-wide text-xl">OwnSpace</span>
                 </div>
+                <Button className="bg-white hover:bg-white/90 text-slate-900 font-semibold cursor-pointer rounded-full"
+                    onClick={() => router.push('/dashboard')}>Get Started</Button>
             </nav>
 
             <section className="relative h-screen w-full overflow-hidden">
@@ -111,11 +112,11 @@ export default function Page() {
             {/* CTA Section */}
             <section className="py-24 px-6 bg-teal-100 rounded-2xl">
                 <div className="max-w-3xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-5xl italic font-medium text-slate-900 mb-6 text-balance">Let's get started</h2>
+                    <h2 className="text-4xl md:text-5xl italic font-medium text-slate-900 mb-6 text-balance">Take back your digital privacy</h2>
                     <p className="text-lg text-slate-600 mb-12 leading-relaxed">
                         Start your private note-taking journey today. It's free, it's private, and it's yours.
                     </p>
-                    <button className="px-6 py-3 text-lg bg-white/50 hover:bg-white/80  active:opacity-80  shadow-xl text-black border border-gray-200 font-semibold rounded-3xl cursor-pointer ">
+                    <button className="px-6 py-3 text-lg bg-white/50 hover:bg-white/80  active:opacity-80  shadow-xl text-black border border-gray-200 font-semibold rounded-3xl cursor-pointer " onClick={() => router.push('/dashboard')}>
                         Start Taking Notes
                     </button>
                 </div>
@@ -125,7 +126,7 @@ export default function Page() {
             <footer className="bg-slate-900 text-slate-400 py-8 px-6 border-t border-slate-800">
                 <div className="max-w-7xl mx-auto">
                     <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-sm">&copy; 2025 OwnSpace. All rights reserved.</p>
+                        <p className="text-sm">&copy; 2025 OwnSpace. Open Source under MIT License.</p>
                         <p className="text-sm">Built with privacy in mind by Kaushik Kundu</p>
                     </div>
                 </div>

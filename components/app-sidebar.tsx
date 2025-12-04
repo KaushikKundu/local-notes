@@ -43,11 +43,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+          {/* <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
             <NotebookPen className="size-4" />
-          </div>
+          </div> */}
           <div className="grid flex-1 text-left text-lg leading-normal">
-            <span className="truncate font-mono text-foreground">LocalNotes</span>
+            <span className="truncate font-mono text-foreground">OwnSpace</span>
           </div>
         </SidebarMenuButton>
       </SidebarHeader>
