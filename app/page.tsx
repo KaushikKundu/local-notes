@@ -9,8 +9,7 @@ export default function Page() {
     const router = useRouter();
     return (
         <main className="min-h-screen">
-            {/* Navigation */}
-            <nav className="fixed top-2 w-full mx-2 z-50 bg-white/80 rounded-full  backdrop-bluackdrop-blur-md max-w-7xl px-4 py-3 mt-3 flex items-center justify-between">
+            <nav className="fixed top-2 inset-x-0 mx-auto w-[95%] max-w-7xl z-50 bg-white/80 rounded-full backdrop-blur-md px-4 py-3 mt-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className="text-black font-semibold tracking-wide text-xl">OwnSpace</span>
                 </div>
