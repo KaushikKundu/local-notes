@@ -36,17 +36,19 @@ useEffect(() => {
   };
 
   const addNote = useCallback(async (note: Note) => {
+    const previousNotes = useNotesStore.getState().notes;
     try {
-      await dbAddNote(note); 
       const curNotes = useNotesStore.getState().notes;
       setNotes([...curNotes, note]);
-      console.log(notes)
+      await dbAddNote(note); 
+      console.log(note.id)
       return note.id;
     } catch (error) {
       console.error('Failed to add note:', error);
+      setNotes(previousNotes);
       throw error;
     }
-  }, []);
+  }, [setNotes]);
  
   const updateNote = useCallback(async (id: string, updates: Partial<Note>) => {
     try {
@@ -63,7 +65,6 @@ useEffect(() => {
     try {
       await dbDeleteNote(id);  
       const curNotes = useNotesStore.getState().notes;
-      const curId = useNotesStore.getState().currentNoteId;
       setNotes(curNotes.filter((note) => note.id !== id));
       if (currentNoteId === id) {
         setCurrentNoteId(null);

@@ -1,24 +1,23 @@
 "use client"
 
 import { useNotes } from "@/hooks/use-notes"
-import { NotebookPen, Plus } from "lucide-react"
+import { Plus, Trash2 } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupAction,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { notes, addNote, setCurrentNoteId, currentNoteId } = useNotes();
+  const { notes, addNote, setCurrentNoteId, currentNoteId, deleteNote } = useNotes();
 
   const handleButton = () => {
     const newNote = {
@@ -34,6 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
     addNote(newNote);
     setCurrentNoteId(newNote.id);
+    
   }
 
   return (
@@ -70,6 +70,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   >
                     <span>{note.title}</span>
                   </SidebarMenuButton>
+                   <SidebarMenuAction 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents opening the note
+                      deleteNote(note.id);
+                    }}
+                    showOnHover
+                    title="Delete Note"
+                  >
+                    <Trash2 /> <span className="sr-only">Delete</span>
+                  </SidebarMenuAction>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

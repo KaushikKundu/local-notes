@@ -52,24 +52,16 @@ export async function getDb() {
     });
     return dbInstance;
 }
-export async function createNote(note: Omit<Note, 'id' | 'createdAt' | 'updatedAt' >) {
+export async function createNote(note: Note) {
     const db = await getDb();
-    const now = Date.now();
-    const newNote: Note = {
-        ...note,
-        id: crypto.randomUUID(),
-        createdAt: now,
-        updatedAt: now
-    }
-    await db.put('notes', newNote);
-    console.log("note created", newNote.id)
+    await db.put('notes', note);
+    console.log("note created", note.id)
     // await db.addToSyncQueue(newNote.id, 'create', { ...newNote });
-    return newNote;
+    return note;
 }
 export async function updateNote(id: string, updates: Partial<Note>){
     const db = await getDb();
     const note = await db.get('notes', id);
-    console.log(id)
     if(!note) {
         throw new Error("Note not found");
     }
