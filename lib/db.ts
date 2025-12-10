@@ -56,7 +56,6 @@ export async function createNote(note: Note) {
     const db = await getDb();
     await db.put('notes', note);
     console.log("note created", note.id)
-    // await db.addToSyncQueue(newNote.id, 'create', { ...newNote });
     return note;
 }
 export async function updateNote(id: string, updates: Partial<Note>){
@@ -79,20 +78,12 @@ export async function deleteNote(id: string){
 }
 export async function getAllNotes() {
     const db = await getDb();
-    const notes = await db.getAllFromIndex('notes', 'by-updatedAt');
-    return notes.filter(n => !n.deleted).reverse();
+    const tx = db.transaction('notes','readonly');
+    const store = tx.objectStore('notes');
+    const notes = await store.getAll();
+    return notes;
 }
 export async function getNoteById(id: string) {
     const db = await getDb();
     return await db.get('notes', id);
-}
-export async function addToSyncQueue(noteId:string, action: "create" | "update" | "delete", data: Partial<Note>) {
-    const db = await getDb();
-    const queueItem = {
-        noteId,
-        action,
-        timestamp: Date.now(),
-        data
-    }
-    await db.add('syncQueue', queueItem);
 }

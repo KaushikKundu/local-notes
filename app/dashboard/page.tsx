@@ -2,6 +2,7 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import Editor from "@/components/Editor"
 import { useEffect, useRef, useState } from "react"
+import { Button } from "@/components/ui/button"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useNotes } from "@/hooks/use-notes"
 import ModeToggle from "@/components/ModeToggle"
+import { getAllNotes, getDb } from "@/lib/db"
 
 export default function Page() {
   const { currentNoteId, notes, updateNote } = useNotes();
@@ -55,6 +57,23 @@ export default function Page() {
       setIsEditingTitle(false);
     }
   };
+  const downloadNotes = async () => {
+    const notes = await getAllNotes();
+    const markdown = notes.map((note) => {
+      const created = new Date(note.createdAt).toISOString();
+      return `# ${note.title}\n\nCreated: ${created}\n\n${note.content}\n`;
+    }).join('\n\n---\n\n');
+    
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'notes.md';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
   return (
     <>
       <SidebarProvider>
@@ -92,7 +111,11 @@ export default function Page() {
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
-            <ModeToggle />
+            <div className="flex items-center gap-2 px-4">
+
+              <Button variant="default" onClick={() => downloadNotes()}>Export Notes</Button>
+              <ModeToggle />
+            </div>
           </header>
           <Editor />
         </SidebarInset>

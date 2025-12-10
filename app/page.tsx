@@ -9,7 +9,7 @@ export default function Page() {
     const router = useRouter();
     return (
         <main className="min-h-screen">
-            <nav className="fixed top-2 inset-x-0 mx-auto w-[95%] max-w-7xl z-50 bg-white/80 rounded-full backdrop-blur-md px-4 py-3 mt-3 flex items-center justify-between">
+            <nav className="fixed top-2 inset-x-0 mx-auto w-[95%] max-w-7xl z-50 bg-white/50 rounded-full backdrop-blur-md px-4 py-3 mt-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className="text-black font-semibold tracking-wide text-xl">OwnSpace</span>
                 </div>
@@ -42,7 +42,7 @@ export default function Page() {
                             </p>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="px-6 py-3 text-lg bg-white/50 hover:bg-white/80  active:opacity-80  shadow-xl text-black border border-gray-200 font-semibold rounded-3xl cursor-pointer ">
+                            <button className="px-6 py-3 text-lg bg-white/50 hover:bg-white/80  active:opacity-80  shadow-xl text-black border border-gray-200 font-semibold rounded-3xl cursor-pointer " onClick={() => router.push('/dashboard')}>
                                 Start Taking Notes
                             </button>
 
@@ -68,8 +68,8 @@ export default function Page() {
                             <div className="mb-4 ">
                                 <Lock className="w-6 h-6 text-white" />
                             </div>
-                            <h3 className="text-xl mb-3">100% Private</h3>
-                            <p className="text-slate-100 leading-relaxed">
+                            <h3 className="text-slate-100 text-xl mb-3">100% Private</h3>
+                            <p className="text-slate-300 leading-relaxed">
                                 Your notes never leave your device. We can't read them even if we wanted to.
                             </p>
                         </div>
@@ -77,8 +77,8 @@ export default function Page() {
                             <div className="mb-4 ">
                                 <Wifi className="w-6 h-6 text-white" />
                             </div>
-                            <h3 className="text-xl mb-3">Works Offline</h3>
-                            <p className="text-slate-100 leading-relaxed">
+                            <h3 className="text-xl mb-3 text-slate-100">Works Offline</h3>
+                            <p className="text-slate-300 leading-relaxed">
                                 No internet connection needed. Your notes are available anytime, anywhere.
                             </p>
                         </div>
@@ -87,8 +87,8 @@ export default function Page() {
                             <div className="mb-4 ">
                                 <Zap className="w-6 h-6 text-white" />
                             </div>
-                            <h3 className="text-xl mb-3">Lightning Fast</h3>
-                            <p className="text-slate-100 leading-relaxed">
+                            <h3 className="text-xl mb-3 text-slate-100">Lightning Fast</h3>
+                            <p className="text-slate-300 leading-relaxed">
                                 Instant responsiveness. No delays, no loading screens, just seamless note-taking.
                             </p>
                         </div>
@@ -97,8 +97,8 @@ export default function Page() {
                             <div className="mb-4 ">
                                 <Cloud className="w-6 h-6 text-white" />
                             </div>
-                            <h3 className="text-xl mb-3">Browser Based</h3>
-                            <p className="text-slate-100 leading-relaxed">
+                            <h3 className="text-slate-100 text-xl mb-3  ">Browser Based</h3>
+                            <p className="text-slate-300 leading-relaxed">
                                 No installation needed. Open your browser and start writing immediately.
                             </p>
                         </div>
