@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Local Notes",
+  title: "OwnSpace",
   description: "A local-first note-taking app built with Next.js and Tiptap.",
 };
 

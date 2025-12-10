@@ -63,7 +63,7 @@ const Editor = () => {
     useEffect(() => {
         if (editor && currentNote) {
             const currentContent = editor.getHTML();
-            const newContent = currentNote.content || '<p>Start Writing..🌎️</p>';
+            const newContent = currentNote.content ;
 
             if (currentContent !== newContent) {
                 console.log('Content different, updating editor');
@@ -85,7 +85,7 @@ const Editor = () => {
     return (
         <div className='size-full py-2 overflow-x-auto  min-h-screen'>
             <Menubar />
-            <div className='min-w-max text-foreground'>
+            <div className='min-w-max text-foreground bg-background'>
                 {!currentNoteId ? (
                     <div className="flex items-center justify-center h-full text-xl">
                         Select a note to start editing

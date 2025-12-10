@@ -5,10 +5,6 @@ export interface Note {
   content: string;
   createdAt: number;
   updatedAt: number;
-  tags: string[];
-  parentId: string | null;
-  deleted: boolean;
-  synced: boolean;
 }
 interface NotesDB extends DBSchema {
     notes: {
@@ -16,19 +12,7 @@ interface NotesDB extends DBSchema {
         value: Note;
         indexes: {
             "by-updatedAt": number;
-            "by-deleted": number;
-            "by-parent": string ;
         };
-    };
-    syncQueue: {
-        key: number;
-        value: {
-            noteId: string;
-            action: "create" | "update" | "delete";
-            timestamp: number;
-            data: Partial<Note>;
-        };
-        autoIncrement: true;
     };
 }
 
@@ -42,12 +26,6 @@ export async function getDb() {
         upgrade(db){
             const notesStore = db.createObjectStore("notes", { keyPath: "id" });
             notesStore.createIndex("by-updatedAt", "updatedAt");
-            notesStore.createIndex("by-deleted", "deleted");
-            notesStore.createIndex("by-parent", "parentId");
-            db.createObjectStore('syncQueue', {
-                keyPath: 'id',
-                autoIncrement: true
-            })
         }
     });
     return dbInstance;
@@ -55,7 +33,6 @@ export async function getDb() {
 export async function createNote(note: Note) {
     const db = await getDb();
     await db.put('notes', note);
-    console.log("note created", note.id)
     return note;
 }
 export async function updateNote(id: string, updates: Partial<Note>){

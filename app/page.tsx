@@ -126,7 +126,7 @@ export default function Page() {
                 <div className="max-w-7xl mx-auto">
                     <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-sm">&copy; 2025 OwnSpace. Open Source under MIT License.</p>
-                        <p className="text-sm">Built with privacy in mind by Kaushik Kundu</p>
+                        <p className="text-sm">Built with privacy in mind by <a href="https://github.com/KaushikKundu" target="_blank" rel="noopener noreferrer">Kaushik Kundu</a> </p>
                     </div>
                 </div>
             </footer>
