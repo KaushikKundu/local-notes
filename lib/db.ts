@@ -71,13 +71,11 @@ export async function updateNote(id: string, updates: Partial<Note>){
         updatedAt: Date.now() 
     };
     await db.put('notes', updatedNote);
-    // await db.addToSyncQueue(updatedNote.id, 'update', updates);
     return updatedNote;
 }
 export async function deleteNote(id: string){
     const db = await getDb();
-    await updateNote(id, { deleted: true });
-    // await db.addToSyncQueue(id, 'delete', {});
+    await db.delete('notes', id);
 }
 export async function getAllNotes() {
     const db = await getDb();

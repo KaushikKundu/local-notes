@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useNotes } from "@/hooks/use-notes"
 import { Plus, Trash2 } from "lucide-react"
 import {
@@ -15,9 +16,20 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { notes, addNote, setCurrentNoteId, currentNoteId, deleteNote } = useNotes();
+  const [noteToDelete, setNoteToDelete] = React.useState<string | null>(null);
 
   const handleButton = () => {
     const newNote = {
@@ -33,7 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
     addNote(newNote);
     setCurrentNoteId(newNote.id);
-    
+
   }
 
   return (
@@ -59,35 +71,57 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Plus /> <span className="sr-only">Add Note</span>
             </SidebarGroupAction>
           </SidebarGroupLabel>
-            <SidebarMenu>
-              {notes.map((note) => (
-                <SidebarMenuItem key={note.id}>
-                  <SidebarMenuButton
-                    onClick={() => {
-                      setCurrentNoteId(note.id);
-                    }}
-                    className={currentNoteId === note.id ? 'bg-sidebar-primary text-sidebar-primary-foreground' : 'text-sidebar-accent-foreground'}
-                  >
-                    <span>{note.title}</span>
-                  </SidebarMenuButton>
-                   <SidebarMenuAction 
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevents opening the note
-                      deleteNote(note.id);
-                    }}
-                    showOnHover
-                    title="Delete Note"
-                  >
-                    <Trash2 /> <span className="sr-only">Delete</span>
-                  </SidebarMenuAction>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          
+          <SidebarMenu>
+            {notes.map((note) => (
+              <SidebarMenuItem key={note.id}>
+                <SidebarMenuButton
+                  onClick={() => {
+                    setCurrentNoteId(note.id);
+                  }}
+                  className={currentNoteId === note.id ? 'bg-sidebar-primary text-sidebar-primary-foreground' : 'text-sidebar-accent-foreground'}
+                >
+                  <span>{note.title}</span>
+                </SidebarMenuButton>
+                <SidebarMenuAction
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents opening the note
+                    setNoteToDelete(note.id);
+                  }}
+                  showOnHover
+                  title="Delete Note"
+                >
+                  <Trash2 /> <span className="sr-only">Delete</span>
+                </SidebarMenuAction>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
+      <AlertDialog open={!!noteToDelete} onOpenChange={() => setNoteToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your note.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (noteToDelete) {
+                  deleteNote(noteToDelete);
+                  setNoteToDelete(null);
+                }
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Sidebar>
   )
 }
-
